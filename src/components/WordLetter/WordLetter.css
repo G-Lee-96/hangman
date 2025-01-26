@@ -1,0 +1,20 @@
+.letter-min-width {
+  min-width: 0.75rem;
+}
+.correct-letter-border {
+  border-bottom: 1px solid #f9f4da;
+}
+.correct-letters {
+  display: flex;
+  background-color: #323232;
+  color: #f9f4da;
+  font-weight: 700;
+  font-size: 1.125rem;
+  padding: 1rem;
+}
+.hidden {
+  visibility: hidden;
+}
+.visible {
+  visibility: visible;
+}

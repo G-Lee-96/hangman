@@ -1,12 +1,12 @@
 h1 {
   font-size: 1.5rem;
   font-weight: 500;
-  color: #F9F4DA;
+  color: #f9f4da;
   margin: 0;
 }
 
 p {
-  color: #8E8E8E;
+  color: #8e8e8e;
   margin: 0;
   font-size: 1rem;
 }
@@ -37,11 +37,11 @@ header {
 }
 
 .white {
-  color: #F9F4DA;
+  color: #f9f4da;
 }
 
 .black {
-  color: #1E1E1E;
+  color: #1e1e1e;
 }
 
 .cities-container {
@@ -52,36 +52,9 @@ header {
   justify-content: center;
 }
 
-.city {
-  font-weight: 700;
-  font-size: 0.75rem;
-  padding: 0.25rem;
-  border-radius: 0.25rem;
-}
-
-.hidden {
-  visibility: hidden;
-}
-.visible {
-  visibility: visible;
-}
-.correct-letters {
-  display: flex;
-  background-color: #323232;
-  color: #F9F4DA;
-  font-weight: 700;
-  font-size: 1.125rem;
-  padding: 1rem;
-}
 .correct-letters-container {
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem;
   max-width: 75rem;
-}
-.correct-letter-border {
-  border-bottom: 1px solid #F9F4DA;
-}
-.letter-min-width {
-  min-width: 0.75rem;
 }
