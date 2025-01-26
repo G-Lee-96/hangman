@@ -34,7 +34,13 @@ const City: React.FC<CityProps> = ({ name, isRemoved, textColor, background }: {
 
 const CorrectLetter: React.FC<CorrectLetter> = ({ letter, isHidden }: { letter: string; isHidden: boolean }) => {
   return (
-    <div className={` letter-min-width ${isHidden ? 'hidden' : 'visible'} ${letter === " " ? "" : "correct-letter-border correct-letters "}`}>{letter}</div>
+    <div className={`letter-min-width 
+      ${letter === " " ? "" : "correct-letter-border correct-letters"}`
+    }>
+      <span className={`${isHidden ? 'hidden' : 'visible'}`}>
+        {letter}
+      </span>
+    </div>
   )
 }
 
@@ -59,7 +65,7 @@ function App() {
       arr.push({
         id: generateId(),
         letter: letter,
-        isHidden: false,
+        isHidden: true,
       });
     });
     return arr;
