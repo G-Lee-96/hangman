@@ -15,7 +15,7 @@ const City: React.FC<CityProps> = ({
 }) => {
   return (
     <div
-      className={`city ${isRemoved ? "" : ""} ${textColor}`}
+      className={`city ${isRemoved ? "removed" : ""} ${textColor}`}
       style={{ backgroundColor: background }}
     >
       {name}

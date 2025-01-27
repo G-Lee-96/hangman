@@ -58,3 +58,10 @@ header {
   gap: 0.25rem;
   max-width: 75rem;
 }
+
+.letters-container {
+  display: flex;
+  flex-wrap: wrap;
+  /* gap: 0.5rem 0.5rem; */
+  justify-content: center;
+}
