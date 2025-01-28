@@ -69,3 +69,11 @@ header {
   background-color: rgba(39, 38, 38, 0);
   cursor: default;
 }
+
+.game-over .letter-box.success {
+  background-color: #10a95b;
+}
+
+.game-over .letter-box.failure {
+  background-color: #ec5d49;
+}

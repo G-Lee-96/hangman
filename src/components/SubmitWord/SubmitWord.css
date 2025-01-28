@@ -24,6 +24,7 @@
 .form input {
   height: calc(100% - 2px);
   border: none;
+  padding-left: 0.5rem;
 }
 .form {
   height: 2rem;
