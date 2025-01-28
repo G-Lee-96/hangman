@@ -1,5 +1,5 @@
-import GuessResult from "./components/GuessResult/GuessResult";
-import { useState } from "react";
+import GuessResult, { statusProps } from "./components/GuessResult/GuessResult";
+import { useState, useEffect } from "react";
 import City, { CityProps } from "./components/City/City";
 import WordLetter, {
   WordLetterProps,
@@ -7,10 +7,11 @@ import WordLetter, {
 import cityList from "./config/cityList";
 import Letter, { LetterProps } from "./components/Letter/Letter";
 import letterList from "./config/letterList";
+import SubmitWord from "./components/SubmitWord/SubmitWord";
 import "./App.css";
 
-let word = "i love you";
-const generateWord = (): WordLetterProps[] => {
+// let word = "i love you";
+const generateWord = (word: string): WordLetterProps[] => {
   const arr: WordLetterProps[] = [];
   const letterArray = word.toUpperCase().split("");
   letterArray.forEach((letter, index) => {
@@ -24,12 +25,14 @@ const generateWord = (): WordLetterProps[] => {
 };
 
 function App() {
+  const [word, setWord] = useState<string>("");
   const [cities, setCities] = useState<CityProps[]>(cityList);
-  const [wordLetter, setWordLetter] =
-    useState<WordLetterProps[]>(generateWord());
+  const [wordLetter, setWordLetter] = useState<WordLetterProps[]>(
+    generateWord(word),
+  );
   const [letters, setLetters] = useState<LetterProps[]>(letterList);
-  const [cityTracker, setCityTracker] = useState<number>(0);
-
+  const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
+  const [guessStatus, setGuessStatus] = useState<statusProps>("noFailures");
   const citiesItems: JSX.Element[] = cities.map((city) => {
     return <City key={city.name} {...city}></City>;
   });
@@ -41,13 +44,47 @@ function App() {
       <Letter
         key={letterObj.letter}
         {...letterObj}
+        guessStatus={guessStatus}
         onClick={() => handleOnClick(letterObj)}
       ></Letter>
     );
   });
+  console.log(guessedLetters);
+  const incorrectGuesses: string[] = guessedLetters.filter(
+    (letter) => !word.toUpperCase().includes(letter),
+  );
+  const handleWordEmit = (newWord: string) => {
+    setWord(newWord.toUpperCase());
+    setGuessedLetters([]);
+    setLetters(letterList.map((letter) => ({ ...letter, status: "default" })));
+    setGuessStatus("noFailures");
+    setWordLetter(generateWord(newWord.toUpperCase()));
+    setCities(cities.map((city) => ({ ...city, isRemoved: false })));
+  };
+  useEffect(() => {
+    const gameWon: boolean = wordLetter
+      .filter((obj) => obj.letter !== " ")
+      .every((obj) => !obj.isHidden);
+    const gameLost: boolean = incorrectGuesses.length === cities.length;
+    console.log(guessStatus);
+    if (
+      guessStatus === "noFailures" &&
+      guessedLetters.length > 0 &&
+      !word.includes(guessedLetters[guessedLetters.length - 1])
+    ) {
+      setGuessStatus("inProgress");
+    }
+    if (guessedLetters.length > 0 && gameWon) {
+      setGuessStatus("gameWon");
+    }
+    if (gameLost) {
+      setGuessStatus("gameLost");
+    }
+  }, [guessedLetters, guessStatus, word]);
   const handleOnClick = (letterObj: LetterProps): void => {
     const letter: string = letterObj.letter;
-    let containsLetter: boolean = false;
+    let containsLetter: boolean | null = null;
+    setGuessedLetters((prevGuessedLetters) => [...prevGuessedLetters, letter]);
     if (word.toUpperCase().includes(letter)) {
       containsLetter = true;
       setWordLetter((prevWordLetter: WordLetterProps[]): WordLetterProps[] => {
@@ -59,22 +96,12 @@ function App() {
           isHidden: foundLetters.includes(letter.id) ? false : letter.isHidden,
         }));
       });
-    }
-    if (!containsLetter) {
+    } else {
+      containsLetter = false;
       setCities((prevCities: CityProps[]): CityProps[] => {
-        prevCities[cityTracker].isRemoved = true;
+        prevCities[incorrectGuesses.length].isRemoved = true;
         return prevCities;
       });
-      setCityTracker((prevValue: number) => prevValue + 1);
-      if (cityTracker === cityList.length - 1) {
-        setLetters((prevLetters: LetterProps[]): LetterProps[] => {
-          return prevLetters.map((prevLetter) => ({
-            ...prevLetter,
-            status:
-              prevLetter.status === "default" ? "game-over" : prevLetter.status,
-          }));
-        });
-      }
     }
     setLetters((prevLetter: LetterProps[]): LetterProps[] => {
       return prevLetter.map((obj: LetterProps) => ({
@@ -98,11 +125,24 @@ function App() {
             Alabama!
           </p>
         </header>
-        <GuessResult></GuessResult>
+        <GuessResult
+          city={
+            incorrectGuesses.length > 0
+              ? cities[incorrectGuesses.length - 1].name
+              : undefined
+          }
+          guessStatus={guessStatus}
+        ></GuessResult>
       </section>
       <section className="cities-container">{citiesItems}</section>
       <section className="correct-letters-container">{wordLetterItems}</section>
-      <section className="letters-container">{letterItems}</section>
+      <SubmitWord emitWord={handleWordEmit}></SubmitWord>
+
+      <section
+        className={`letters-container ${guessStatus === "gameWon" || guessStatus === "gameLost" ? "game-over" : ""}`}
+      >
+        {letterItems}
+      </section>
     </div>
   );
 }

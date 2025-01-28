@@ -1,9 +1,29 @@
 .guess-result {
-    background-color: #7A5EA7;
-    color: #F9F4DA;
-    font-size: 1rem;
-    padding: 1rem 0rem;
-    border: #323232 dashed 2px;
-    font-style: italic;
-  }
-  
+  background-color: #7a5ea7;
+  color: #f9f4da;
+  font-size: 1rem;
+  padding: 0.5rem 0rem;
+  border: #323232 dashed 2px;
+  display: flex;
+  min-height: 51px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.guess-result .result-header {
+  font-size: 1.25rem;
+}
+.success {
+  border: none;
+}
+.failure {
+  border: none;
+}
+.italic {
+  font-style: italic;
+}
+.empty-div {
+  height: 51px;
+  margin: 0.5rem;
+  padding: 0.125rem 0rem;
+}

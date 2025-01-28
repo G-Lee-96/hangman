@@ -16,8 +16,3 @@
 .failure {
   background-color: #ec5d49;
 }
-
-.game-over {
-  background-color: rgba(39, 38, 38, 0);
-  cursor: default;
-}

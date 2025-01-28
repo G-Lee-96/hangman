@@ -62,6 +62,10 @@ header {
 .letters-container {
   display: flex;
   flex-wrap: wrap;
-  /* gap: 0.5rem 0.5rem; */
   justify-content: center;
+}
+
+.game-over .letter-box {
+  background-color: rgba(39, 38, 38, 0);
+  cursor: default;
 }
