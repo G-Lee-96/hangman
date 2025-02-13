@@ -10,7 +10,6 @@ import letterList from "./config/letterList";
 import SubmitWord from "./components/SubmitWord/SubmitWord";
 import "./App.css";
 
-// let word = "i love you";
 const generateWord = (word: string): WordLetterProps[] => {
   const arr: WordLetterProps[] = [];
   const letterArray = word.toUpperCase().split("");
@@ -27,9 +26,7 @@ const generateWord = (word: string): WordLetterProps[] => {
 function App() {
   const [word, setWord] = useState<string>("");
   const [cities, setCities] = useState<CityProps[]>(cityList);
-  const [wordLetter, setWordLetter] = useState<WordLetterProps[]>(
-    generateWord(word),
-  );
+  const [wordLetter, setWordLetter] = useState<WordLetterProps[]>([]);
   const [letters, setLetters] = useState<LetterProps[]>(letterList);
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
   const [guessStatus, setGuessStatus] = useState<statusProps>("noFailures");
@@ -49,7 +46,6 @@ function App() {
       ></Letter>
     );
   });
-  console.log(guessedLetters);
   const incorrectGuesses: string[] = guessedLetters.filter(
     (letter) => !word.toUpperCase().includes(letter),
   );
@@ -66,7 +62,6 @@ function App() {
       .filter((obj) => obj.letter !== " ")
       .every((obj) => !obj.isHidden);
     const gameLost: boolean = incorrectGuesses.length === cities.length;
-    console.log(guessStatus);
     if (
       guessStatus === "noFailures" &&
       guessedLetters.length > 0 &&

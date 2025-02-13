@@ -11,8 +11,10 @@ const SubmitWord: React.FC<SubmitWordProps> = ({ emitWord }): JSX.Element => {
   };
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    emitWord(inputValue);
-    setInputValue("");
+    if (inputValue.length > 0) {
+      emitWord(inputValue);
+      setInputValue("");
+    }
   };
   return (
     <div className="form-container">
